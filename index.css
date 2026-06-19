@@ -1,0 +1,840 @@
+/* Design System Variables */
+:root {
+  --bg-primary: #0a0a0d;
+  --bg-secondary: #121218;
+  --bg-card: rgba(22, 22, 30, 0.7);
+  --color-gold: #d4af37;
+  --color-gold-bright: #ffdf00;
+  --color-gold-dim: #aa8e2c;
+  --color-text-bright: #f5f5f7;
+  --color-text-muted: #8e8e93;
+  --color-accent-red: #8b0000;
+  --color-accent-green: #2e7d32;
+  --color-accent-blue: #1976d2;
+  
+  --border-gold: rgba(212, 175, 55, 0.2);
+  --border-gold-hover: rgba(255, 223, 0, 0.4);
+  --shadow-gold: 0 0 15px rgba(212, 175, 55, 0.15);
+  --shadow-gold-bright: 0 0 25px rgba(255, 223, 0, 0.3);
+  
+  --font-serif: 'Noto Serif TC', 'Georgia', serif;
+  --font-sans: 'Outfit', 'Inter', 'SF Pro TC', sans-serif;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--color-text-bright);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Ambient Thunderstorm Background */
+.ambient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  background: radial-gradient(circle at 50% 50%, #151522 0%, #08080c 70%, #030305 100%);
+  background-size: cover;
+  transition: background 1s ease;
+}
+
+.lightning-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: rgba(255, 255, 240, 0.85);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Lightning animation keyframe triggerable by JavaScript */
+@keyframes flash-animation {
+  0% { opacity: 0; }
+  10% { opacity: 0.8; }
+  15% { opacity: 0.2; }
+  20% { opacity: 0.9; }
+  45% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.lightning-flash.flash-active {
+  animation: flash-animation 0.7s ease-out;
+}
+
+/* App Container Layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header Styles */
+.app-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-gold);
+}
+
+.scripture-title {
+  font-family: var(--font-serif);
+  font-weight: 900;
+  font-size: 2.2rem;
+  color: var(--color-gold);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+  letter-spacing: 0.15rem;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+}
+
+/* Main Layout Grid */
+.main-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Control Panel (Sidebar) */
+.control-panel {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow-gold);
+  backdrop-filter: blur(10px);
+}
+
+.panel-section {
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed rgba(212, 175, 55, 0.15);
+}
+
+.panel-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.panel-section h3 {
+  font-family: var(--font-serif);
+  color: var(--color-gold);
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  letter-spacing: 0.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.panel-section h3::after {
+  content: '';
+  flex-grow: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(212, 175, 55, 0.4), transparent);
+  margin-left: 10px;
+}
+
+.control-group {
+  margin-bottom: 12px;
+}
+
+/* Switch & Controls */
+.switch-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--color-text-bright);
+  user-select: none;
+}
+
+/* Toggle switches style */
+input[type="checkbox"] {
+  display: none;
+}
+
+.slider {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+  background-color: #3a3a4c;
+  border-radius: 34px;
+  transition: 0.3s;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--color-text-bright);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background-color: var(--color-gold-dim);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+}
+
+input:checked + .slider::before {
+  transform: translateX(22px);
+  background-color: var(--color-gold-bright);
+}
+
+/* Chanting Counter Panel */
+.counter-section {
+  text-align: center;
+}
+
+.counter-display {
+  font-family: var(--font-sans);
+  font-size: 4rem;
+  font-weight: 300;
+  color: var(--color-gold-bright);
+  text-shadow: 0 0 15px rgba(255, 223, 0, 0.4);
+  margin: 10px 0;
+  letter-spacing: -0.05rem;
+}
+
+.counter-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.shortcut-tip {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 8px;
+}
+
+.audio-hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 5px;
+  text-align: right;
+  font-style: italic;
+}
+
+/* Buttons style */
+.btn {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+.btn-full {
+  width: 100%;
+  padding: 10px 15px;
+}
+
+.btn-primary {
+  background-color: var(--color-gold-dim);
+  color: #000;
+  border-color: var(--color-gold);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-gold-bright);
+  box-shadow: var(--shadow-gold-bright);
+}
+
+.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-bright);
+  border-color: rgba(255, 255, 255, 0.15);
+  padding: 6px 12px;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-danger {
+  background-color: rgba(139, 0, 0, 0.2);
+  color: #ff8888;
+  border-color: rgba(139, 0, 0, 0.4);
+  padding: 6px 12px;
+}
+
+.btn-danger:hover {
+  background-color: rgba(139, 0, 0, 0.4);
+}
+
+.btn-success {
+  background-color: rgba(46, 125, 50, 0.2);
+  color: #81c784;
+  border-color: rgba(46, 125, 50, 0.4);
+}
+
+.btn-success:hover {
+  background-color: rgba(46, 125, 50, 0.4);
+}
+
+.btn-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-bright);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-circle:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-counter-add {
+  padding: 10px 24px;
+  font-size: 1.1rem;
+}
+
+/* Reader Area */
+.reader-area {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 150px);
+  min-height: 550px;
+}
+
+@media (max-width: 900px) {
+  .reader-area {
+    height: auto;
+  }
+}
+
+.reader-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn-nav {
+  background-color: var(--bg-card);
+  color: var(--color-text-bright);
+  border-color: var(--border-gold);
+  padding: 8px 16px;
+}
+
+.btn-nav:hover {
+  border-color: var(--color-gold-bright);
+  color: var(--color-gold-bright);
+}
+
+.page-selector-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+#pageSelect {
+  background-color: #121218;
+  color: var(--color-text-bright);
+  border: 1px solid var(--border-gold);
+  border-radius: 4px;
+  padding: 4px 8px;
+  outline: none;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+#pageSelect:focus {
+  border-color: var(--color-gold-bright);
+}
+
+/* Scripture Paper - The Reading Material */
+.scripture-paper {
+  flex-grow: 1;
+  background: #0f0e0c url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%230f0e0c" width="100" height="100"/><circle cx="50" cy="50" r="1.5" fill="%231a1916"/></svg>') repeat;
+  border: 2px solid var(--color-gold-dim);
+  border-radius: 8px;
+  padding: 30px 40px;
+  overflow: auto;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 5px 25px rgba(0, 0, 0, 0.5);
+  position: relative;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+/* Vertical and Horizontal Mode layouts */
+.scripture-paper.vertical-mode {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  align-content: flex-start;
+  gap: 24px;
+  line-height: 2.2;
+}
+
+.scripture-paper.horizontal-mode {
+  writing-mode: horizontal-tb;
+  display: block;
+  line-height: 2.5;
+}
+
+/* Loading placeholder */
+.loading {
+  font-family: var(--font-serif);
+  color: var(--color-text-muted);
+  font-size: 1.2rem;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  writing-mode: horizontal-tb;
+}
+
+/* Vertical Columns */
+.scripture-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+}
+
+.horizontal-mode .scripture-column {
+  display: inline;
+}
+
+/* Punctuation styles */
+.scripture-char.punctuation {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+/* Ruby Text & Character Alignment styling */
+.scripture-char {
+  font-family: var(--font-serif);
+  font-size: var(--scripture-font-size, 1.8rem);
+  font-weight: 500;
+  display: inline-block;
+  cursor: default;
+  transition: color 0.15s ease, transform 0.15s ease;
+  color: #ece6d8;
+  position: relative;
+  text-align: center;
+}
+
+/* Layout modifications for horizontal reading */
+.horizontal-mode .scripture-char {
+  font-size: var(--scripture-font-size, 1.8rem);
+  margin-right: 12px;
+}
+
+.scripture-char:hover {
+  color: var(--color-gold-bright);
+}
+
+/* Styling for Edit Mode clickable state */
+.edit-active .scripture-char:not(.punctuation) {
+  cursor: pointer;
+  border-bottom: 1px dashed var(--color-gold);
+}
+
+.edit-active .scripture-char:not(.punctuation):hover {
+  background-color: rgba(212, 175, 55, 0.15);
+  transform: scale(1.05);
+  box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+  border-radius: 4px;
+}
+
+/* Ruby Tag (Zhuyin) layout rules */
+ruby {
+  ruby-position: over; /* Horizontal */
+  ruby-align: center;
+}
+
+/* Firefox / Safari support */
+.vertical-mode ruby {
+  ruby-position: right; /* Vertical right side */
+}
+
+rt {
+  font-family: var(--font-serif);
+  font-size: 0.38em;
+  font-weight: 400;
+  color: var(--color-gold-dim);
+  letter-spacing: -0.02rem;
+  user-select: none;
+  transition: opacity 0.2s ease;
+}
+
+.vertical-mode rt {
+  writing-mode: horizontal-tb;
+  text-orientation: mixed;
+  display: inline-block;
+  padding-left: 4px;
+}
+
+.horizontal-mode ruby {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.horizontal-mode rt {
+  writing-mode: horizontal-tb;
+  text-orientation: mixed;
+  display: inline-block;
+  padding-left: 3px;
+}
+
+/* Hide zhuyin trigger class */
+.hide-zhuyin rt {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Footer layout */
+.footer-tip {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 15px;
+  letter-spacing: 0.05rem;
+}
+
+/* Modal dialog popup overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--color-gold);
+  border-radius: 12px;
+  width: 480px;
+  max-width: 90%;
+  box-shadow: var(--shadow-gold-bright);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modal-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modal-enter {
+  0% { transform: scale(0.9) translateY(20px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h4 {
+  font-family: var(--font-serif);
+  color: var(--color-gold-bright);
+  font-size: 1.1rem;
+  letter-spacing: 0.05rem;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.btn-close:hover {
+  color: var(--color-text-bright);
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.char-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.02);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.preview-kanji {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  color: var(--color-text-bright);
+}
+
+.preview-zhuyin {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  color: var(--color-gold);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+#inputZhuyin {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #0a0a0d;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  color: var(--color-text-bright);
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  outline: none;
+  letter-spacing: 0.1rem;
+  transition: border-color 0.2s;
+}
+
+#inputZhuyin:focus {
+  border-color: var(--color-gold-bright);
+  box-shadow: 0 0 5px rgba(255, 223, 0, 0.2);
+}
+
+/* Bopomofo helper keyboard grid */
+.zhuyin-keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 15px;
+}
+
+.keyboard-row {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.key {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text-bright);
+  border-radius: 4px;
+  padding: 6px 0;
+  flex-grow: 1;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+  min-width: 28px;
+  text-align: center;
+}
+
+.key:hover {
+  background-color: rgba(212, 175, 55, 0.2);
+  border-color: var(--color-gold);
+  color: var(--color-gold-bright);
+}
+
+.key.font-accent {
+  background-color: rgba(25, 118, 210, 0.15);
+  border-color: rgba(25, 118, 210, 0.3);
+}
+
+.key.font-tone {
+  background-color: rgba(139, 0, 0, 0.15);
+  border-color: rgba(139, 0, 0, 0.3);
+  color: #ff8888;
+}
+
+.key.btn-clear {
+  background-color: rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
+  flex-grow: 2;
+}
+
+.modal-footer {
+  padding: 15px 20px;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.modal-footer .btn {
+  padding: 8px 16px;
+}
+
+/* --- Traditional Zhuyin Tone Layout System --- */
+.zhuyin-wrapper {
+  display: inline-flex;
+}
+
+/* 二三四聲：注音字母在左（垂直排），聲調符號在右 */
+.zhuyin-wrapper.tone-normal-layout {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 輕聲：聲調符號在最上方，注音字母在下方 */
+.zhuyin-wrapper.tone-light-layout {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.zhuyin-letters {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  line-height: 1.0;
+  letter-spacing: 0.05em;
+}
+
+.zhuyin-tone {
+  font-family: var(--font-serif);
+  font-size: 0.85em; /* 聲調稍微縮小配合比例 */
+  line-height: 1.0;
+  user-select: none;
+}
+
+/* 二三四聲微調：讓聲調向左貼近，且縱向微幅偏上（符合台灣教科書習慣） */
+.zhuyin-wrapper.tone-normal-layout .zhuyin-tone {
+  margin-left: -1px;
+  margin-top: -0.45em;
+}
+
+/* 輕聲微調：讓小圓點貼近首字頭頂 */
+.zhuyin-wrapper.tone-light-layout .zhuyin-tone {
+  margin-bottom: -1px;
+  line-height: 0.5;
+  font-size: 0.8em;
+}
+
+/* Range input font-size slider UI */
+.font-size-control {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+#fontSizeDisplay {
+  color: var(--color-gold-bright);
+  font-weight: 600;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #2e2e3e;
+  border-radius: 3px;
+  outline: none;
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-gold-bright);
+  border: 1px solid var(--color-gold);
+  box-shadow: 0 0 5px rgba(255, 223, 0, 0.5);
+  transition: transform 0.1s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+}
