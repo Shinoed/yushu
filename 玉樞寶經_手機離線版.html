@@ -133,6 +133,29 @@ body {
 @media (max-width: 900px) {
   .main-layout {
     grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .app-container {
+    padding: 10px;
+  }
+  
+  .control-panel {
+    padding: 12px;
+  }
+  
+  .panel-section {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+  }
+  
+  .counter-display {
+    font-size: 3.2rem;
+    margin: 5px 0;
+  }
+  
+  .scripture-paper {
+    padding: 20px 15px;
   }
 }
 
@@ -1756,9 +1779,14 @@ function handleScroll() {
 
 // Scroll smooth back to top (both page window and paper area)
 function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
   if (scriptureContent) {
+    // For mobile: scroll the scripture paper element to the top of screen
+    scriptureContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    // For desktop: scroll internal scrollbar to top/right start
     scriptureContent.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
 

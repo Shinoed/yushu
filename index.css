@@ -122,6 +122,29 @@ body {
 @media (max-width: 900px) {
   .main-layout {
     grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .app-container {
+    padding: 10px;
+  }
+  
+  .control-panel {
+    padding: 12px;
+  }
+  
+  .panel-section {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+  }
+  
+  .counter-display {
+    font-size: 3.2rem;
+    margin: 5px 0;
+  }
+  
+  .scripture-paper {
+    padding: 20px 15px;
   }
 }
 

@@ -711,8 +711,13 @@ function handleScroll() {
 
 // Scroll smooth back to top (both page window and paper area)
 function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
   if (scriptureContent) {
+    // For mobile: scroll the scripture paper element to the top of screen
+    scriptureContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    // For desktop: scroll internal scrollbar to top/right start
     scriptureContent.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
