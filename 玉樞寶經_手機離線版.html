@@ -453,7 +453,7 @@ input:checked + .slider::before {
   flex-direction: row-reverse;
   justify-content: flex-start;
   align-content: flex-start;
-  gap: 24px;
+  gap: 1.25em; /* Use em to dynamically scale column spacing with font size */
   line-height: 2.2;
 }
 
@@ -461,6 +461,7 @@ input:checked + .slider::before {
   writing-mode: horizontal-tb;
   display: block;
   line-height: 2.5;
+  letter-spacing: 0.06em; /* Elegant character spacing for horizontal reading */
 }
 
 /* Loading placeholder */
@@ -482,6 +483,7 @@ input:checked + .slider::before {
   flex-direction: column;
   align-items: center;
   min-height: 100%;
+  gap: 0.15em; /* Vertical character spacing to prevent characters from sticking together */
 }
 
 .horizontal-mode .scripture-column {
@@ -494,9 +496,15 @@ input:checked + .slider::before {
   opacity: 0.7;
 }
 
+/* Punctuation offset in vertical reading to align to the right/top-right */
+.vertical-mode .scripture-char.punctuation {
+  transform: translate(0.15em, -0.05em);
+  opacity: 0.85;
+}
+
 /* Ruby Text & Character Alignment styling */
 .scripture-char {
-  font-family: var(--font-serif);
+  font-family: var(--font-serif), "BiauKai", "DFKai-SB", "Microsoft JhengHei", serif; /* Classical fallbacks */
   font-size: var(--scripture-font-size, 1.8rem);
   font-weight: 500;
   display: inline-block;
@@ -510,7 +518,7 @@ input:checked + .slider::before {
 /* Layout modifications for horizontal reading */
 .horizontal-mode .scripture-char {
   font-size: var(--scripture-font-size, 1.8rem);
-  margin-right: 12px;
+  margin-right: 0; /* Rely on letter-spacing on parent instead */
 }
 
 .scripture-char:hover {
@@ -542,8 +550,8 @@ ruby {
 }
 
 rt {
-  font-family: var(--font-serif);
-  font-size: 0.38em;
+  font-family: var(--font-serif), "BiauKai", "DFKai-SB", "Microsoft JhengHei", serif;
+  font-size: 0.35em; /* Slightly smaller ratio for better aesthetics */
   font-weight: 400;
   color: var(--color-gold-dim);
   letter-spacing: -0.02rem;
@@ -555,7 +563,8 @@ rt {
   writing-mode: horizontal-tb;
   text-orientation: mixed;
   display: inline-block;
-  padding-left: 4px;
+  margin-left: 0.12em; /* Relative dynamic gap instead of hardcoded px */
+  max-width: 1.5em; /* Restrict width to prevent unwanted wrapping */
 }
 
 .horizontal-mode ruby {
