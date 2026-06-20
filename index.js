@@ -22,6 +22,10 @@ const pageSelect = document.getElementById('pageSelect');
 const totalPagesSpan = document.getElementById('totalPages');
 const btnPrevPage = document.getElementById('btnPrevPage');
 const btnNextPage = document.getElementById('btnNextPage');
+const pageSelectBottom = document.getElementById('pageSelectBottom');
+const totalPagesSpanBottom = document.getElementById('totalPagesBottom');
+const btnPrevPageBottom = document.getElementById('btnPrevPageBottom');
+const btnNextPageBottom = document.getElementById('btnNextPageBottom');
 const toggleZhuyin = document.getElementById('toggleZhuyin');
 const toggleLayout = document.getElementById('toggleLayout');
 const toggleEditMode = document.getElementById('toggleEditMode');
@@ -89,18 +93,26 @@ async function loadScriptureData() {
     scriptureData = await response.json();
     totalPages = scriptureData.length;
     totalPagesSpan.textContent = totalPages;
+    if (totalPagesSpanBottom) totalPagesSpanBottom.textContent = totalPages;
     
-    // Populate page select dropdown
+    // Populate page select dropdowns
     pageSelect.innerHTML = '';
+    if (pageSelectBottom) pageSelectBottom.innerHTML = '';
     for (let i = 1; i <= totalPages; i++) {
       const opt = document.createElement('option');
       opt.value = i;
       opt.textContent = i;
       pageSelect.appendChild(opt);
+      
+      if (pageSelectBottom) {
+        const optBottom = opt.cloneNode(true);
+        pageSelectBottom.appendChild(optBottom);
+      }
     }
     
     currentPage = 1;
     pageSelect.value = currentPage;
+    if (pageSelectBottom) pageSelectBottom.value = currentPage;
     renderPage();
   } catch (error) {
     scriptureContent.innerHTML = `<div class="loading" style="color: #ff8888;">載入失敗: ${error.message}</div>`;
@@ -142,6 +154,10 @@ function renderPage() {
   
   const pageObj = scriptureData.find(p => p.page === currentPage);
   if (!pageObj) return;
+  
+  // Sync page selector dropdowns
+  pageSelect.value = currentPage;
+  if (pageSelectBottom) pageSelectBottom.value = currentPage;
   
   scriptureContent.innerHTML = '';
   
@@ -243,6 +259,15 @@ function setupEventListeners() {
     currentPage = parseInt(e.target.value);
     renderPage();
   });
+  
+  if (btnPrevPageBottom) btnPrevPageBottom.addEventListener('click', navigatePrev);
+  if (btnNextPageBottom) btnNextPageBottom.addEventListener('click', navigateNext);
+  if (pageSelectBottom) {
+    pageSelectBottom.addEventListener('change', (e) => {
+      currentPage = parseInt(e.target.value);
+      renderPage();
+    });
+  }
   
   // Keyboard navigation
   document.addEventListener('keydown', (e) => {
