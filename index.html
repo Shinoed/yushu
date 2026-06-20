@@ -107,6 +107,19 @@
           <div class="loading">正在載入經文資料...</div>
         </div>
 
+        <!-- Bottom Navigation Controls -->
+        <div class="reader-nav reader-nav-bottom" style="margin-top: 15px; margin-bottom: 5px;">
+          <button id="btnPrevPageBottom" class="btn btn-nav">&lt; 上一頁</button>
+          <div class="page-selector-container">
+            第
+            <select id="pageSelectBottom">
+              <!-- Dynamically populated -->
+            </select>
+            / <span id="totalPagesBottom">29</span> 頁
+          </div>
+          <button id="btnNextPageBottom" class="btn btn-nav">下一頁 &gt;</button>
+        </div>
+
         <div class="footer-tip">
           點擊漢字可進行讀音校正 (需開啟編輯模式) • 支援左右方向鍵翻頁<br>
           <span style="font-size: 0.75rem; color: var(--color-text-muted); opacity: 0.7;">
