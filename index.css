@@ -838,3 +838,48 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]::-webkit-slider-thumb:hover {
   transform: scale(1.25);
 }
+
+/* Collapsible Sections in Sidebar */
+.panel-section.collapsible .collapsible-trigger {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+  transition: color 0.2s ease;
+}
+
+.panel-section.collapsible .collapsible-trigger:hover {
+  color: var(--color-gold-bright);
+}
+
+.panel-section.collapsible .collapsible-trigger::after {
+  display: none;
+}
+
+.panel-section.collapsible .arrow {
+  font-size: 0.75rem;
+  color: var(--color-gold-dim);
+  transition: transform 0.3s ease, color 0.3s ease;
+  display: inline-block;
+}
+
+.panel-section.collapsible .collapsible-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding-top: 0;
+  transition: max-height 0.3s ease-out, opacity 0.2s ease-out, padding 0.3s ease-out;
+}
+
+.panel-section.collapsible.active .collapsible-content {
+  max-height: 400px;
+  opacity: 1;
+  padding-top: 15px;
+}
+
+.panel-section.collapsible.active .arrow {
+  transform: rotate(90deg);
+  color: var(--color-gold-bright);
+}

@@ -24,52 +24,9 @@
     <div class="main-layout">
       <!-- Sidebar Control Panel -->
       <aside class="control-panel">
-        <div class="panel-section">
-          <h3>閱讀設定</h3>
-          <div class="control-group">
-            <label class="switch-label">
-              <span>注音顯示</span>
-              <input type="checkbox" id="toggleZhuyin" checked>
-              <span class="slider"></span>
-            </label>
-          </div>
-          <div class="control-group font-size-control">
-            <div class="slider-header">
-              <span>字體大小</span>
-              <span id="fontSizeDisplay">中 (1.8rem)</span>
-            </div>
-            <input type="range" id="fontSizeRange" min="1.2" max="3.0" step="0.1" value="1.8">
-          </div>
-          <div class="control-group">
-            <label class="switch-label">
-              <span>排版方向</span>
-              <button id="toggleLayout" class="btn btn-secondary">切換為橫書</button>
-            </label>
-          </div>
-          <div class="control-group">
-            <label class="switch-label">
-              <span>注音編輯模式</span>
-              <input type="checkbox" id="toggleEditMode">
-              <span class="slider"></span>
-            </label>
-          </div>
-        </div>
-
-        <div class="panel-section">
-          <h3>環境音效</h3>
-          <div class="control-group" style="display: flex; flex-direction: column; gap: 8px;">
-            <label for="selectAudio" style="font-size: 0.9rem; color: var(--color-text-muted);">選擇背景音：</label>
-            <select id="selectAudio" style="width: 100%; background-color: #0a0a0d; color: var(--color-text-bright); border: 1px solid var(--border-gold); border-radius: 6px; padding: 8px; outline: none; font-family: var(--font-sans); cursor: pointer; font-size: 0.95rem; transition: border-color 0.2s;">
-              <option value="none">無音效 (安靜閱讀)</option>
-              <option value="rain">真實雨聲 (森林細雨)</option>
-              <option value="forest_stream">林間小溪 (細流潺潺)</option>
-            </select>
-          </div>
-          <div class="audio-hint" id="audioStatus">音效已關閉</div>
-        </div>
-
+        <!-- 1. 功德計數器 (最上方，不可摺疊) -->
         <div class="panel-section counter-section">
-          <h3>功課計數器</h3>
+          <h3>功德計數器</h3>
           <div class="counter-display" id="counterVal">0</div>
           <div class="counter-actions">
             <button id="btnDec" class="btn btn-circle" title="減少一次">-</button>
@@ -79,10 +36,64 @@
           <div class="shortcut-tip">提示：閱讀時按「空白鍵」可快速 +1</div>
         </div>
 
-        <div class="panel-section">
-          <h3>資料維護</h3>
-          <button id="btnExport" class="btn btn-success btn-full">匯出校對 JSON</button>
-          <button id="btnResetData" class="btn btn-danger btn-full" style="margin-top: 10px;">還原預設注音</button>
+        <!-- 2. 閱讀設定 (可摺疊，預設收合) -->
+        <div class="panel-section collapsible">
+          <h3 class="collapsible-trigger">閱讀設定 <span class="arrow">▶</span></h3>
+          <div class="collapsible-content">
+            <div class="control-group">
+              <label class="switch-label">
+                <span>注音顯示</span>
+                <input type="checkbox" id="toggleZhuyin" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="control-group font-size-control">
+              <div class="slider-header">
+                <span>字體大小</span>
+                <span id="fontSizeDisplay">中 (1.8rem)</span>
+              </div>
+              <input type="range" id="fontSizeRange" min="1.2" max="3.0" step="0.1" value="1.8">
+            </div>
+            <div class="control-group">
+              <label class="switch-label">
+                <span>排版方向</span>
+                <button id="toggleLayout" class="btn btn-secondary">切換為橫書</button>
+              </label>
+            </div>
+            <div class="control-group">
+              <label class="switch-label">
+                <span>注音編輯模式</span>
+                <input type="checkbox" id="toggleEditMode">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 環境音效 (可摺疊，預設收合) -->
+        <div class="panel-section collapsible audio-section">
+          <h3 class="collapsible-trigger">環境音效 <span class="arrow">▶</span></h3>
+          <div class="collapsible-content">
+            <div class="control-group" style="display: flex; flex-direction: column; gap: 8px;">
+              <label for="selectAudio" style="font-size: 0.9rem; color: var(--color-text-muted);">選擇背景音：</label>
+              <select id="selectAudio" style="width: 100%; background-color: #0a0a0d; color: var(--color-text-bright); border: 1px solid var(--border-gold); border-radius: 6px; padding: 8px; outline: none; font-family: var(--font-sans); cursor: pointer; font-size: 0.95rem; transition: border-color 0.2s;">
+                <option value="none">無音效 (安靜閱讀)</option>
+                <option value="rain">真實雨聲 (森林細雨)</option>
+                <option value="forest_stream">林間小溪 (細流潺潺)</option>
+                <option value="muyu">木魚敲擊 (靜心誦經)</option>
+              </select>
+            </div>
+            <div class="audio-hint" id="audioStatus">音效已關閉</div>
+          </div>
+        </div>
+
+        <!-- 4. 資料維護 (可摺疊，預設收合) -->
+        <div class="panel-section collapsible">
+          <h3 class="collapsible-trigger">資料維護 <span class="arrow">▶</span></h3>
+          <div class="collapsible-content">
+            <button id="btnExport" class="btn btn-success btn-full">匯出校對 JSON</button>
+            <button id="btnResetData" class="btn btn-danger btn-full" style="margin-top: 10px;">還原預設注音</button>
+          </div>
         </div>
       </aside>
 

@@ -356,6 +356,15 @@ function setupEventListeners() {
       closeEditModal();
     }
   });
+
+  // Collapsible control sections
+  const collapsibleTriggers = document.querySelectorAll('.collapsible-trigger');
+  collapsibleTriggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const section = trigger.parentElement;
+      section.classList.toggle('active');
+    });
+  });
 }
 
 function navigatePrev() {
@@ -526,9 +535,80 @@ function setupKeyboardHelper() {
 
 /* --- Audio System (Using locally hosted nature sounds) --- */
 let bgAudio = null;
+let muyuInterval = null;
+
+// Synthesis of the wooden fish (muyu) block sound
+function playMuyuSound() {
+  if (!audioCtx) {
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch(e) {
+      return;
+    }
+  }
+  
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  
+  const now = audioCtx.currentTime;
+  const freq = 560; // fundamental resonance frequency of temple block
+  
+  // Principal resonance body (sine wave with pitch bend down on mallet impact)
+  const osc = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freq, now);
+  osc.frequency.exponentialRampToValueAtTime(freq * 0.88, now + 0.08);
+  
+  gainNode.gain.setValueAtTime(0.4, now);
+  gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+  
+  // Mallet impact sound (wood clack transient, high frequency, very short)
+  const oscHigh = audioCtx.createOscillator();
+  const gainHigh = audioCtx.createGain();
+  oscHigh.type = 'sine';
+  oscHigh.frequency.setValueAtTime(freq * 1.8, now);
+  
+  gainHigh.gain.setValueAtTime(0.12, now);
+  gainHigh.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
+  
+  osc.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+  
+  oscHigh.connect(gainHigh);
+  gainHigh.connect(audioCtx.destination);
+  
+  osc.start(now);
+  osc.stop(now + 0.15);
+  
+  oscHigh.start(now);
+  oscHigh.stop(now + 0.05);
+}
+
+function startMuyu() {
+  stopMuyu(); // stop any active loop
+  
+  playMuyuSound(); // play immediately
+  
+  // Loop every 1.25 seconds (around 48 BPM, solemn chanting tempo)
+  muyuInterval = setInterval(() => {
+    playMuyuSound();
+  }, 1250);
+}
+
+function stopMuyu() {
+  if (muyuInterval) {
+    clearInterval(muyuInterval);
+    muyuInterval = null;
+  }
+}
 
 function changeBgAudio(type) {
   currentAudioType = type;
+  
+  // Stop muyu timer if running
+  stopMuyu();
   
   // Pause and release current audio
   if (bgAudio) {
@@ -541,6 +621,13 @@ function changeBgAudio(type) {
   if (type === 'none') {
     audioStatus.textContent = '音效已關閉';
     audioStatus.style.color = 'var(--color-text-muted)';
+    return;
+  }
+  
+  if (type === 'muyu') {
+    startMuyu();
+    audioStatus.textContent = '木魚靜心敲擊中...';
+    audioStatus.style.color = 'var(--color-gold-bright)';
     return;
   }
   

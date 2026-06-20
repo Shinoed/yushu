@@ -850,6 +850,51 @@ input[type="range"]::-webkit-slider-thumb:hover {
   transform: scale(1.25);
 }
 
+/* Collapsible Sections in Sidebar */
+.panel-section.collapsible .collapsible-trigger {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+  transition: color 0.2s ease;
+}
+
+.panel-section.collapsible .collapsible-trigger:hover {
+  color: var(--color-gold-bright);
+}
+
+.panel-section.collapsible .collapsible-trigger::after {
+  display: none;
+}
+
+.panel-section.collapsible .arrow {
+  font-size: 0.75rem;
+  color: var(--color-gold-dim);
+  transition: transform 0.3s ease, color 0.3s ease;
+  display: inline-block;
+}
+
+.panel-section.collapsible .collapsible-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding-top: 0;
+  transition: max-height 0.3s ease-out, opacity 0.2s ease-out, padding 0.3s ease-out;
+}
+
+.panel-section.collapsible.active .collapsible-content {
+  max-height: 400px;
+  opacity: 1;
+  padding-top: 15px;
+}
+
+.panel-section.collapsible.active .arrow {
+  transform: rotate(90deg);
+  color: var(--color-gold-bright);
+}
+
 </style>
 </head>
 <body>
@@ -866,39 +911,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
     <div class="main-layout">
       <!-- Sidebar Control Panel -->
       <aside class="control-panel">
-        <div class="panel-section">
-          <h3>閱讀設定</h3>
-          <div class="control-group">
-            <label class="switch-label">
-              <span>注音顯示</span>
-              <input type="checkbox" id="toggleZhuyin" checked>
-              <span class="slider"></span>
-            </label>
-          </div>
-          <div class="control-group font-size-control">
-            <div class="slider-header">
-              <span>字體大小</span>
-              <span id="fontSizeDisplay">中 (1.8rem)</span>
-            </div>
-            <input type="range" id="fontSizeRange" min="1.2" max="3.0" step="0.1" value="1.8">
-          </div>
-          <div class="control-group">
-            <label class="switch-label">
-              <span>排版方向</span>
-              <button id="toggleLayout" class="btn btn-secondary">切換為橫書</button>
-            </label>
-          </div>
-          <div class="control-group">
-            <label class="switch-label">
-              <span>注音編輯模式</span>
-              <input type="checkbox" id="toggleEditMode">
-              <span class="slider"></span>
-            </label>
-          </div>
-        </div>
-
+        <!-- 1. 功德計數器 (最上方，不可摺疊) -->
         <div class="panel-section counter-section">
-          <h3>功課計數器</h3>
+          <h3>功德計數器</h3>
           <div class="counter-display" id="counterVal">0</div>
           <div class="counter-actions">
             <button id="btnDec" class="btn btn-circle" title="減少一次">-</button>
@@ -908,10 +923,47 @@ input[type="range"]::-webkit-slider-thumb:hover {
           <div class="shortcut-tip">提示：閱讀時按「空白鍵」可快速 +1</div>
         </div>
 
-        <div class="panel-section">
-          <h3>資料維護</h3>
-          <button id="btnExport" class="btn btn-success btn-full">匯出校對 JSON</button>
-          <button id="btnResetData" class="btn btn-danger btn-full" style="margin-top: 10px;">還原預設注音</button>
+        <!-- 2. 閱讀設定 (可摺疊，預設收合) -->
+        <div class="panel-section collapsible">
+          <h3 class="collapsible-trigger">閱讀設定 <span class="arrow">▶</span></h3>
+          <div class="collapsible-content">
+            <div class="control-group">
+              <label class="switch-label">
+                <span>注音顯示</span>
+                <input type="checkbox" id="toggleZhuyin" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="control-group font-size-control">
+              <div class="slider-header">
+                <span>字體大小</span>
+                <span id="fontSizeDisplay">中 (1.8rem)</span>
+              </div>
+              <input type="range" id="fontSizeRange" min="1.2" max="3.0" step="0.1" value="1.8">
+            </div>
+            <div class="control-group">
+              <label class="switch-label">
+                <span>排版方向</span>
+                <button id="toggleLayout" class="btn btn-secondary">切換為橫書</button>
+              </label>
+            </div>
+            <div class="control-group">
+              <label class="switch-label">
+                <span>注音編輯模式</span>
+                <input type="checkbox" id="toggleEditMode">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. 資料維護 (可摺疊，預設收合) -->
+        <div class="panel-section collapsible">
+          <h3 class="collapsible-trigger">資料維護 <span class="arrow">▶</span></h3>
+          <div class="collapsible-content">
+            <button id="btnExport" class="btn btn-success btn-full">匯出校對 JSON</button>
+            <button id="btnResetData" class="btn btn-danger btn-full" style="margin-top: 10px;">還原預設注音</button>
+          </div>
         </div>
       </aside>
 
@@ -1346,6 +1398,15 @@ function setupEventListeners() {
       closeEditModal();
     }
   });
+
+  // Collapsible control sections
+  const collapsibleTriggers = document.querySelectorAll('.collapsible-trigger');
+  collapsibleTriggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const section = trigger.parentElement;
+      section.classList.toggle('active');
+    });
+  });
 }
 
 function navigatePrev() {
@@ -1516,6 +1577,74 @@ function setupKeyboardHelper() {
 
 /* --- Audio System (Using locally hosted nature sounds) --- */
 let bgAudio = null;
+let muyuInterval = null;
+
+// Synthesis of the wooden fish (muyu) block sound
+function playMuyuSound() {
+  if (!audioCtx) {
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch(e) {
+      return;
+    }
+  }
+  
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  
+  const now = audioCtx.currentTime;
+  const freq = 560; // fundamental resonance frequency of temple block
+  
+  // Principal resonance body (sine wave with pitch bend down on mallet impact)
+  const osc = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freq, now);
+  osc.frequency.exponentialRampToValueAtTime(freq * 0.88, now + 0.08);
+  
+  gainNode.gain.setValueAtTime(0.4, now);
+  gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+  
+  // Mallet impact sound (wood clack transient, high frequency, very short)
+  const oscHigh = audioCtx.createOscillator();
+  const gainHigh = audioCtx.createGain();
+  oscHigh.type = 'sine';
+  oscHigh.frequency.setValueAtTime(freq * 1.8, now);
+  
+  gainHigh.gain.setValueAtTime(0.12, now);
+  gainHigh.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
+  
+  osc.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+  
+  oscHigh.connect(gainHigh);
+  gainHigh.connect(audioCtx.destination);
+  
+  osc.start(now);
+  osc.stop(now + 0.15);
+  
+  oscHigh.start(now);
+  oscHigh.stop(now + 0.05);
+}
+
+function startMuyu() {
+  stopMuyu(); // stop any active loop
+  
+  playMuyuSound(); // play immediately
+  
+  // Loop every 1.25 seconds (around 48 BPM, solemn chanting tempo)
+  muyuInterval = setInterval(() => {
+    playMuyuSound();
+  }, 1250);
+}
+
+function stopMuyu() {
+  if (muyuInterval) {
+    clearInterval(muyuInterval);
+    muyuInterval = null;
+  }
+}
 
 function changeBgAudio(type) {}
 
