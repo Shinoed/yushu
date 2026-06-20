@@ -392,7 +392,7 @@ input:checked + .slider::before {
   color: var(--color-text-muted);
 }
 
-#pageSelect {
+#pageSelect, #pageSelectBottom {
   background-color: #121218;
   color: var(--color-text-bright);
   border: 1px solid var(--border-gold);
@@ -404,7 +404,7 @@ input:checked + .slider::before {
   cursor: pointer;
 }
 
-#pageSelect:focus {
+#pageSelect:focus, #pageSelectBottom:focus {
   border-color: var(--color-gold-bright);
 }
 
@@ -936,6 +936,19 @@ input[type="range"]::-webkit-slider-thumb:hover {
           <div class="loading">正在載入經文資料...</div>
         </div>
 
+        <!-- Bottom Navigation Controls -->
+        <div class="reader-nav reader-nav-bottom" style="margin-top: 15px; margin-bottom: 5px;">
+          <button id="btnPrevPageBottom" class="btn btn-nav">&lt; 上一頁</button>
+          <div class="page-selector-container">
+            第
+            <select id="pageSelectBottom">
+              <!-- Dynamically populated -->
+            </select>
+            / <span id="totalPagesBottom">29</span> 頁
+          </div>
+          <button id="btnNextPageBottom" class="btn btn-nav">下一頁 &gt;</button>
+        </div>
+
         <div class="footer-tip">
           點擊漢字可進行讀音校正 (需開啟編輯模式) • 支援左右方向鍵翻頁<br>
           <span style="font-size: 0.75rem; color: var(--color-text-muted); opacity: 0.7;">
@@ -1020,6 +1033,10 @@ const pageSelect = document.getElementById('pageSelect');
 const totalPagesSpan = document.getElementById('totalPages');
 const btnPrevPage = document.getElementById('btnPrevPage');
 const btnNextPage = document.getElementById('btnNextPage');
+const pageSelectBottom = document.getElementById('pageSelectBottom');
+const totalPagesSpanBottom = document.getElementById('totalPagesBottom');
+const btnPrevPageBottom = document.getElementById('btnPrevPageBottom');
+const btnNextPageBottom = document.getElementById('btnNextPageBottom');
 const toggleZhuyin = document.getElementById('toggleZhuyin');
 const toggleLayout = document.getElementById('toggleLayout');
 const toggleEditMode = document.getElementById('toggleEditMode');
@@ -1133,6 +1150,10 @@ function renderPage() {
   const pageObj = scriptureData.find(p => p.page === currentPage);
   if (!pageObj) return;
   
+  // Sync page selector dropdowns
+  pageSelect.value = currentPage;
+  if (pageSelectBottom) pageSelectBottom.value = currentPage;
+  
   scriptureContent.innerHTML = '';
   
   // Apply visual settings classes
@@ -1233,6 +1254,15 @@ function setupEventListeners() {
     currentPage = parseInt(e.target.value);
     renderPage();
   });
+  
+  if (btnPrevPageBottom) btnPrevPageBottom.addEventListener('click', navigatePrev);
+  if (btnNextPageBottom) btnNextPageBottom.addEventListener('click', navigateNext);
+  if (pageSelectBottom) {
+    pageSelectBottom.addEventListener('change', (e) => {
+      currentPage = parseInt(e.target.value);
+      renderPage();
+    });
+  }
   
   // Keyboard navigation
   document.addEventListener('keydown', (e) => {

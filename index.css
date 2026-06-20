@@ -381,7 +381,7 @@ input:checked + .slider::before {
   color: var(--color-text-muted);
 }
 
-#pageSelect {
+#pageSelect, #pageSelectBottom {
   background-color: #121218;
   color: var(--color-text-bright);
   border: 1px solid var(--border-gold);
@@ -393,7 +393,7 @@ input:checked + .slider::before {
   cursor: pointer;
 }
 
-#pageSelect:focus {
+#pageSelect:focus, #pageSelectBottom:focus {
   border-color: var(--color-gold-bright);
 }
 
