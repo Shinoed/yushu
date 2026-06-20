@@ -1777,17 +1777,25 @@ function handleScroll() {
   }
 }
 
+// Helper to get absolute offsetTop of an element relative to the document body
+function getAbsoluteOffsetTop(element) {
+  let top = 0;
+  while (element) {
+    top += element.offsetTop;
+    element = element.offsetParent;
+  }
+  return top;
+}
+
 // Scroll smooth back to top (both page window and paper area)
 function scrollToTop() {
   if (scriptureContent) {
-    // For mobile: Manually calculate Y offset of scriptureContent to bypass iOS Safari scrollIntoView bug
-    const rect = scriptureContent.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const targetY = rect.top + scrollTop;
+    // Get absolute position relative to body to avoid offsetParent container limitations
+    const targetY = getAbsoluteOffsetTop(scriptureContent);
     
     // Scroll window smoothly to the exact Y coordinate of scriptureContent
     window.scrollTo({
-      top: targetY - 12, // 12px gap from top for better aesthetics
+      top: targetY - 10, // 10px gap from top for better aesthetics
       behavior: 'smooth'
     });
     
