@@ -712,10 +712,18 @@ function handleScroll() {
 // Scroll smooth back to top (both page window and paper area)
 function scrollToTop() {
   if (scriptureContent) {
-    // For mobile: scroll the scripture paper element to the top of screen
-    scriptureContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // For mobile: Manually calculate Y offset of scriptureContent to bypass iOS Safari scrollIntoView bug
+    const rect = scriptureContent.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const targetY = rect.top + scrollTop;
     
-    // For desktop: scroll internal scrollbar to top/right start
+    // Scroll window smoothly to the exact Y coordinate of scriptureContent
+    window.scrollTo({
+      top: targetY - 12, // 12px gap from top for better aesthetics
+      behavior: 'smooth'
+    });
+    
+    // For desktop: scroll internal scrollbar of the paper back to start
     scriptureContent.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   } else {
     window.scrollTo({ top: 0, behavior: 'smooth' });
