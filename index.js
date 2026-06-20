@@ -39,6 +39,7 @@ const btnExport = document.getElementById('btnExport');
 const btnResetData = document.getElementById('btnResetData');
 const fontSizeRange = document.getElementById('fontSizeRange');
 const fontSizeDisplay = document.getElementById('fontSizeDisplay');
+const btnBackToTop = document.getElementById('btnBackToTop');
 
 // Modal Elements
 const editModal = document.getElementById('editModal');
@@ -356,6 +357,15 @@ function setupEventListeners() {
       closeEditModal();
     }
   });
+  
+  // Back to top scroll and click events
+  window.addEventListener('scroll', handleScroll);
+  if (scriptureContent) {
+    scriptureContent.addEventListener('scroll', handleScroll);
+  }
+  if (btnBackToTop) {
+    btnBackToTop.addEventListener('click', scrollToTop);
+  }
 }
 
 function navigatePrev() {
@@ -685,4 +695,24 @@ function playChime() {
     osc.start(now);
     osc.stop(now + 3.5);
   });
+}
+
+// Scroll detection to show/hide back-to-top button
+function handleScroll() {
+  const windowScroll = window.scrollY || document.documentElement.scrollTop;
+  const paperScroll = scriptureContent ? scriptureContent.scrollTop : 0;
+  
+  if (windowScroll > 200 || paperScroll > 200) {
+    btnBackToTop.classList.add('visible');
+  } else {
+    btnBackToTop.classList.remove('visible');
+  }
+}
+
+// Scroll smooth back to top (both page window and paper area)
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (scriptureContent) {
+    scriptureContent.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }
 }

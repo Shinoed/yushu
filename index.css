@@ -883,3 +883,52 @@ input[type="range"]::-webkit-slider-thumb:hover {
   transform: rotate(90deg);
   color: var(--color-gold-bright);
 }
+
+/* Back to Top Button */
+.back-to-top-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: rgba(22, 22, 30, 0.85);
+  border: 1px solid var(--border-gold);
+  color: var(--color-gold);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-gold);
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  outline: none;
+}
+
+.back-to-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top-btn .arrow-svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--color-gold);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.3s ease;
+}
+
+.back-to-top-btn:hover {
+  background-color: var(--bg-secondary);
+  border-color: var(--color-gold-bright);
+  box-shadow: var(--shadow-gold-bright);
+  transform: translateY(-4px);
+}
+
+.back-to-top-btn:hover .arrow-svg {
+  transform: translateY(-2px);
+  stroke: var(--color-gold-bright);
+}
