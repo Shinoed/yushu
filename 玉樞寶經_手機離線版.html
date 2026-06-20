@@ -925,7 +925,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
         <!-- 2. 閱讀設定 (可摺疊，預設收合) -->
         <div class="panel-section collapsible">
-          <h3 class="collapsible-trigger">閱讀設定 <span class="arrow">▶</span></h3>
+          <h3 class="collapsible-trigger" onclick="this.parentElement.classList.toggle('active')">閱讀設定 <span class="arrow">▶</span></h3>
           <div class="collapsible-content">
             <div class="control-group">
               <label class="switch-label">
@@ -959,7 +959,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
         <!-- 4. 資料維護 (可摺疊，預設收合) -->
         <div class="panel-section collapsible">
-          <h3 class="collapsible-trigger">資料維護 <span class="arrow">▶</span></h3>
+          <h3 class="collapsible-trigger" onclick="this.parentElement.classList.toggle('active')">資料維護 <span class="arrow">▶</span></h3>
           <div class="collapsible-content">
             <button id="btnExport" class="btn btn-success btn-full">匯出校對 JSON</button>
             <button id="btnResetData" class="btn btn-danger btn-full" style="margin-top: 10px;">還原預設注音</button>
@@ -1397,15 +1397,6 @@ function setupEventListeners() {
     if (e.target === editModal) {
       closeEditModal();
     }
-  });
-
-  // Collapsible control sections
-  const collapsibleTriggers = document.querySelectorAll('.collapsible-trigger');
-  collapsibleTriggers.forEach(trigger => {
-    trigger.addEventListener('click', () => {
-      const section = trigger.parentElement;
-      section.classList.toggle('active');
-    });
   });
 }
 

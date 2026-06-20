@@ -356,15 +356,6 @@ function setupEventListeners() {
       closeEditModal();
     }
   });
-
-  // Collapsible control sections
-  const collapsibleTriggers = document.querySelectorAll('.collapsible-trigger');
-  collapsibleTriggers.forEach(trigger => {
-    trigger.addEventListener('click', () => {
-      const section = trigger.parentElement;
-      section.classList.toggle('active');
-    });
-  });
 }
 
 function navigatePrev() {

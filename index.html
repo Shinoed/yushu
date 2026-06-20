@@ -38,7 +38,7 @@
 
         <!-- 2. 閱讀設定 (可摺疊，預設收合) -->
         <div class="panel-section collapsible">
-          <h3 class="collapsible-trigger">閱讀設定 <span class="arrow">▶</span></h3>
+          <h3 class="collapsible-trigger" onclick="this.parentElement.classList.toggle('active')">閱讀設定 <span class="arrow">▶</span></h3>
           <div class="collapsible-content">
             <div class="control-group">
               <label class="switch-label">
@@ -72,7 +72,7 @@
 
         <!-- 3. 環境音效 (可摺疊，預設收合) -->
         <div class="panel-section collapsible audio-section">
-          <h3 class="collapsible-trigger">環境音效 <span class="arrow">▶</span></h3>
+          <h3 class="collapsible-trigger" onclick="this.parentElement.classList.toggle('active')">環境音效 <span class="arrow">▶</span></h3>
           <div class="collapsible-content">
             <div class="control-group" style="display: flex; flex-direction: column; gap: 8px;">
               <label for="selectAudio" style="font-size: 0.9rem; color: var(--color-text-muted);">選擇背景音：</label>
@@ -89,7 +89,7 @@
 
         <!-- 4. 資料維護 (可摺疊，預設收合) -->
         <div class="panel-section collapsible">
-          <h3 class="collapsible-trigger">資料維護 <span class="arrow">▶</span></h3>
+          <h3 class="collapsible-trigger" onclick="this.parentElement.classList.toggle('active')">資料維護 <span class="arrow">▶</span></h3>
           <div class="collapsible-content">
             <button id="btnExport" class="btn btn-success btn-full">匯出校對 JSON</button>
             <button id="btnResetData" class="btn btn-danger btn-full" style="margin-top: 10px;">還原預設注音</button>
